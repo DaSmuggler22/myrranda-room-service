@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fbf6ee">
+<title>Myrranda's Recovery Room Service</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Pinyon+Script&display=swap">
+<style>
+/* Layout: a single parchment column; each day is a framed calling card, sections divided by gilt flourishes. */
+:root{
+  --ivory:#fbf6ee;--parchment:#fffcf6;--ink:#3b3242;--muted:#7b6f82;
+  --wisteria:#9b86bf;--wisteria-soft:#ebe4f4;--blush:#e9bcc8;--blush-soft:#f8e8ed;--rose:#b05f7c;
+  --sage:#7f9a7c;--sage-soft:#e9f0e6;--gold:#c8a45e;--gold-soft:#eadcb9;
+  --shadow:0 10px 30px rgba(90,70,110,.10);
+  --display:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+  --body:"EB Garamond",Georgia,"Times New Roman",serif;
+  --script:"Pinyon Script","Snell Roundhand","Brush Script MT",cursive;
+  --petal-a:rgba(233,188,200,.7);--petal-b:rgba(155,134,191,.5);--leaf:rgba(127,154,124,.55);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --ivory:#221c27;--parchment:#2b2431;--ink:#f1e8f0;--muted:#b3a6b8;
+  --wisteria:#bfaad9;--wisteria-soft:#3a3046;--blush:#d79bae;--blush-soft:#3f2b35;--rose:#e39ab3;
+  --sage:#a6bfa2;--sage-soft:#2c3a2d;--gold:#d7b66e;--gold-soft:#5a4a2a;
+  --shadow:0 10px 30px rgba(0,0,0,.35);
+  --petal-a:rgba(215,155,174,.22);--petal-b:rgba(191,170,217,.18);--leaf:rgba(166,191,162,.18);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --ivory:#221c27;--parchment:#2b2431;--ink:#f1e8f0;--muted:#b3a6b8;
+  --wisteria:#bfaad9;--wisteria-soft:#3a3046;--blush:#d79bae;--blush-soft:#3f2b35;--rose:#e39ab3;
+  --sage:#a6bfa2;--sage-soft:#2c3a2d;--gold:#d7b66e;--gold-soft:#5a4a2a;
+  --shadow:0 10px 30px rgba(0,0,0,.35);
+  --petal-a:rgba(215,155,174,.22);--petal-b:rgba(191,170,217,.18);--leaf:rgba(166,191,162,.18);color-scheme:dark}
+
+*{box-sizing:border-box}
+html{background:var(--ivory)}
+body{margin:0;background:var(--ivory);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.4;position:relative;overflow-x:hidden}
+/* Floral corners drawn once, fixed behind the page */
+.garden{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.garden svg{position:absolute;width:min(78vw,460px);height:auto;max-width:100%}
+.garden .tl{top:-40px;left:-60px}
+.garden .br{bottom:-50px;right:-70px;transform:rotate(180deg)}
+main{position:relative;z-index:1;max-width:720px;margin:auto;padding-inline:16px;padding-block:22px 80px}
+
+/* Hero */
+.hero{text-align:center;padding:30px 8px 10px}
+.hero .eyebrow{font-family:var(--display);font-style:italic;font-weight:500;letter-spacing:.18em;text-transform:uppercase;font-size:12px;color:var(--gold)}
+.hero h1{font-family:var(--display);font-weight:600;font-size:clamp(38px,9vw,56px);line-height:.98;margin:10px 0 0;text-wrap:balance}
+.hero .script{font-family:var(--script);font-weight:400;font-size:clamp(34px,9vw,52px);color:var(--rose);display:block;line-height:1.05;margin-top:-6px}
+.hero p{margin:14px auto 0;max-width:34ch;color:var(--muted);font-style:italic;font-size:17px}
+.flourish{display:flex;justify-content:center;margin:18px 0 6px;color:var(--gold)}
+.flourish svg{width:min(260px,70%);height:auto}
+
+/* Day cards */
+.day-grid{display:grid;grid-template-columns:1fr;gap:18px;margin-top:10px}
+.day-card{background:var(--parchment);border:1px solid var(--gold);border-radius:6px;padding:22px 18px 16px;box-shadow:var(--shadow);position:relative}
+.day-card::before{content:"";position:absolute;inset:6px;border:1px solid var(--gold-soft);border-radius:3px;pointer-events:none}
+.day-head{display:flex;gap:12px;align-items:flex-end;justify-content:space-between;margin-bottom:12px;position:relative}
+.day-head>div{min-width:0}
+.day-label{font-family:var(--display);font-style:italic;font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.day-head h2{font-family:var(--display);font-weight:600;font-size:30px;line-height:1.05;margin:2px 0 4px;text-wrap:balance}
+.day-head p{margin:0;color:var(--muted);font-style:italic;font-size:16px}
+.pick-day{border:1px solid var(--gold);background:transparent;color:var(--ink);font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.04em;border-radius:999px;min-height:44px;padding:9px 16px;white-space:nowrap;cursor:pointer;flex:none}
+.pick-day.on{background:var(--rose);border-color:var(--rose);color:var(--parchment)}
+.items{display:grid;gap:4px;position:relative}
+.menu-item{display:grid;grid-template-columns:24px 82px 1fr;gap:10px;align-items:start;padding:10px 8px;border-radius:8px;cursor:pointer}
+.menu-item:has(input:checked){background:var(--blush-soft)}
+.course{font-family:var(--display);font-weight:700;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);padding-top:5px;min-width:0}
+.copy{min-width:0;display:flex;flex-direction:column;gap:2px}
+.copy strong{font-family:var(--display);font-weight:600;font-size:19px;line-height:1.15}
+.copy small{font-size:15px;line-height:1.35;color:var(--muted)}
+
+/* Gilt checkbox */
+input[type=checkbox]{appearance:none;-webkit-appearance:none;width:22px;height:22px;margin:2px 0 0;border:1.5px solid var(--gold);border-radius:50%;background:var(--parchment);flex:none;position:relative;cursor:pointer;display:grid;place-items:center}
+input[type=checkbox]::after{content:"";width:11px;height:11px;border-radius:50%;background:var(--rose);transform:scale(0);transition:transform .15s}
+input[type=checkbox]:checked{border-color:var(--rose)}
+input[type=checkbox]:checked::after{transform:scale(1)}
+.drink input[type=checkbox]:checked{border-color:var(--sage)}
+.drink input[type=checkbox]::after{background:var(--sage)}
+
+/* Sections */
+.section-head{text-align:center;margin:34px 0 14px}
+.section-head h2{font-family:var(--display);font-weight:600;font-size:30px;margin:0;line-height:1.05}
+.section-head .script{font-family:var(--script);font-size:26px;color:var(--wisteria);display:block;line-height:1}
+.pills{display:flex;flex-wrap:wrap;gap:9px;justify-content:center}
+.pill{display:flex;align-items:center;gap:9px;border:1px solid var(--gold-soft);background:var(--parchment);border-radius:999px;padding:9px 14px 9px 10px;min-height:44px;font-size:16px;cursor:pointer}
+.pill:has(input:checked){border-color:var(--rose);background:var(--blush-soft)}
+.drink:has(input:checked){border-color:var(--sage);background:var(--sage-soft)}
+
+.notes{margin-top:30px;background:var(--parchment);border:1px solid var(--gold);border-radius:6px;padding:16px;position:relative}
+.notes::before{content:"";position:absolute;inset:6px;border:1px solid var(--gold-soft);border-radius:3px;pointer-events:none}
+.notes label{font-family:var(--display);font-weight:600;font-size:22px;display:block;margin-bottom:8px;position:relative}
+textarea{width:100%;font:inherit;font-size:17px;border:1px solid var(--gold-soft);border-radius:6px;padding:12px;resize:vertical;background:var(--ivory);color:var(--ink);position:relative}
+#notes{min-height:84px}
+
+/* Order card */
+.order{margin-top:30px;background:var(--wisteria-soft);border:1px solid var(--wisteria);border-radius:6px;padding:20px 16px 16px;position:relative;text-align:center}
+.order::before{content:"";position:absolute;inset:6px;border:1px solid var(--wisteria);opacity:.45;border-radius:3px;pointer-events:none}
+.order h3{font-family:var(--script);font-weight:400;font-size:40px;line-height:1;margin:0 0 12px;color:var(--rose)}
+#orderText{min-height:220px;background:var(--parchment);text-align:left;font-size:16px}
+.status{display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;font-style:italic;margin:10px 0 0;min-height:20px;color:var(--muted)}
+.status .dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex:none}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;justify-content:center;position:relative}
+.actions button,.actions a{border:1px solid transparent;border-radius:999px;min-height:46px;padding:11px 18px;font-family:var(--display);font-weight:700;font-size:17px;letter-spacing:.03em;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.primary{background:var(--rose);color:#fff;border-color:var(--rose)!important}
+.secondary{background:var(--parchment);color:var(--ink);border-color:var(--gold)!important}
+.ghost{background:transparent;color:var(--muted);border-color:var(--wisteria)!important}
+.colophon{text-align:center;margin-top:36px;color:var(--gold);font-family:var(--display);font-style:italic;font-size:14px;letter-spacing:.14em;text-transform:uppercase}
+
+:focus-visible{outline:2px solid var(--rose);outline-offset:2px}
+@media(min-width:690px){.day-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:420px){.menu-item{grid-template-columns:24px 74px 1fr;gap:8px}.day-head{flex-direction:column;align-items:stretch}.pick-day{width:100%}}
+@media(prefers-reduced-motion:no-preference){.pick-day,.pill,.menu-item{transition:background .15s,color .15s,border-color .15s}}
+@media(prefers-reduced-motion:reduce){input[type=checkbox]::after{transition:none}}
+</style>
+</head>
+<body>
+<div class="garden" aria-hidden="true">
+  <svg class="tl" viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <g id="bloom"><ellipse cx="0" cy="-16" rx="8" ry="15"/><ellipse cx="0" cy="-16" rx="8" ry="15" transform="rotate(72)"/><ellipse cx="0" cy="-16" rx="8" ry="15" transform="rotate(144)"/><ellipse cx="0" cy="-16" rx="8" ry="15" transform="rotate(216)"/><ellipse cx="0" cy="-16" rx="8" ry="15" transform="rotate(288)"/></g>
+      <g id="leaf"><path d="M0 0 C 14 -10, 30 -8, 40 6 C 28 14, 12 14, 0 0 Z"/></g>
+    </defs>
+    <g fill="none" stroke="var(--leaf)" stroke-width="2" stroke-linecap="round">
+      <path d="M-20 60 C 80 40, 140 90, 180 180 C 200 230, 240 260, 300 270"/>
+      <path d="M-10 140 C 60 130, 110 170, 130 240 C 140 280, 170 310, 210 330"/>
+    </g>
+    <g fill="var(--leaf)">
+      <use href="#leaf" transform="translate(60 48) rotate(-25)"/><use href="#leaf" transform="translate(120 72) rotate(20)"/>
+      <use href="#leaf" transform="translate(160 140) rotate(-40)"/><use href="#leaf" transform="translate(220 240) rotate(10)"/>
+      <use href="#leaf" transform="translate(50 150) rotate(15)"/><use href="#leaf" transform="translate(140 250) rotate(-30)"/>
+    </g>
+    <g fill="var(--petal-a)">
+      <use href="#bloom" transform="translate(40 90) scale(1.6)"/><use href="#bloom" transform="translate(180 175) scale(1.2)"/><use href="#bloom" transform="translate(95 210) scale(1.0)"/>
+    </g>
+    <g fill="var(--petal-b)">
+      <use href="#bloom" transform="translate(110 125) scale(1.3) rotate(30)"/><use href="#bloom" transform="translate(240 265) scale(1.5) rotate(15)"/><use href="#bloom" transform="translate(30 190) scale(.9) rotate(50)"/>
+    </g>
+    <g fill="var(--gold)" opacity=".5"><circle cx="40" cy="90" r="4"/><circle cx="180" cy="175" r="3"/><circle cx="110" cy="125" r="3"/><circle cx="240" cy="265" r="4"/><circle cx="95" cy="210" r="2.5"/><circle cx="30" cy="190" r="2.5"/></g>
+  </svg>
+  <svg class="br" viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="var(--leaf)" stroke-width="2" stroke-linecap="round">
+      <path d="M-20 60 C 80 40, 140 90, 180 180 C 200 230, 240 260, 300 270"/>
+      <path d="M-10 140 C 60 130, 110 170, 130 240 C 140 280, 170 310, 210 330"/>
+    </g>
+    <g fill="var(--leaf)">
+      <use href="#leaf" transform="translate(60 48) rotate(-25)"/><use href="#leaf" transform="translate(120 72) rotate(20)"/>
+      <use href="#leaf" transform="translate(160 140) rotate(-40)"/><use href="#leaf" transform="translate(220 240) rotate(10)"/>
+      <use href="#leaf" transform="translate(50 150) rotate(15)"/><use href="#leaf" transform="translate(140 250) rotate(-30)"/>
+    </g>
+    <g fill="var(--petal-b)">
+      <use href="#bloom" transform="translate(40 90) scale(1.6)"/><use href="#bloom" transform="translate(180 175) scale(1.2)"/><use href="#bloom" transform="translate(95 210) scale(1.0)"/>
+    </g>
+    <g fill="var(--petal-a)">
+      <use href="#bloom" transform="translate(110 125) scale(1.3) rotate(30)"/><use href="#bloom" transform="translate(240 265) scale(1.5) rotate(15)"/><use href="#bloom" transform="translate(30 190) scale(.9) rotate(50)"/>
+    </g>
+    <g fill="var(--gold)" opacity=".5"><circle cx="40" cy="90" r="4"/><circle cx="180" cy="175" r="3"/><circle cx="110" cy="125" r="3"/><circle cx="240" cy="265" r="4"/><circle cx="95" cy="210" r="2.5"/><circle cx="30" cy="190" r="2.5"/></g>
+  </svg>
+</div>
+
+<main>
+<header class="hero">
+  <div class="eyebrow">By appointment to the patient</div>
+  <h1>Myrranda's Recovery<span class="script">Room Service</span></h1>
+  <div class="flourish"><svg viewBox="0 0 260 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M4 12 H 100"/><path d="M160 12 H 256"/><path d="M110 12 c 6 -10, 14 -10, 20 0 c 6 10, 14 10, 20 0"/><circle cx="130" cy="12" r="2.4" fill="currentColor" stroke="none"/><path d="M104 12 l -5 -4 M104 12 l -5 4 M156 12 l 5 -4 M156 12 l 5 4"/></svg></div>
+  <p>Tap whatever you fancy, then press <em>Text Order</em> and it goes straight to Robert.</p>
+</header>
+
+<div class="day-grid">
+  <section class="day-card" data-day="rose">
+    <div class="day-head">
+      <div><div class="day-label">Day I</div><h2>The Rose Court</h2><p>Soft, cozy, and a little fancy</p></div>
+      <button type="button" class="pick-day" data-day-target="rose">Choose this day</button>
+    </div>
+    <div class="items">
+      <label class="menu-item" for="item_1"><input type="checkbox" id="item_1" data-name="Fried Egg Breakfast Plate" data-group="Day I - The Rose Court"><span class="course">Breakfast</span><span class="copy"><strong>Fried Egg Breakfast Plate</strong><small>Fried egg, smoked cheddar or mozzarella, cucumber, and gluten-free crackers.</small></span></label>
+      <label class="menu-item" for="item_2"><input type="checkbox" id="item_2" data-name="Classic Egg Drop Soup" data-group="Day I - The Rose Court"><span class="course">Lunch</span><span class="copy"><strong>Classic Egg Drop Soup</strong><small>Silky egg ribbons, savory broth, and green onion. No shredded chicken.</small></span></label>
+      <label class="menu-item" for="item_3"><input type="checkbox" id="item_3" data-name="Chips &amp; Artichoke Parmesan Dip" data-group="Day I - The Rose Court"><span class="course">Snack</span><span class="copy"><strong>Chips &amp; Artichoke Parmesan Dip</strong><small>Tortilla chips with warm spinach-artichoke Parmesan dip.</small></span></label>
+      <label class="menu-item" for="item_4"><input type="checkbox" id="item_4" data-name="Ají Amarillo Shrimp" data-group="Day I - The Rose Court"><span class="course">Dinner</span><span class="copy"><strong>Ají Amarillo Shrimp</strong><small>Peruvian shrimp with ají-style sauce, rice, peas, and roasted peppers.</small></span></label>
+    </div>
+  </section>
+
+  <section class="day-card" data-day="swan">
+    <div class="day-head">
+      <div><div class="day-label">Day II</div><h2>The Silver Swan</h2><p>Fresh, elegant, and easy</p></div>
+      <button type="button" class="pick-day" data-day-target="swan">Choose this day</button>
+    </div>
+    <div class="items">
+      <label class="menu-item" for="item_5"><input type="checkbox" id="item_5" data-name="Savory Omelette" data-group="Day II - The Silver Swan"><span class="course">Breakfast</span><span class="copy"><strong>Savory Omelette</strong><small>Egg omelette with cheese, herbs, and optional spinach.</small></span></label>
+      <label class="menu-item" for="item_6"><input type="checkbox" id="item_6" data-name="Chicken Caesar Salad" data-group="Day II - The Silver Swan"><span class="course">Lunch</span><span class="copy"><strong>Chicken Caesar Salad</strong><small>Gluten-free Caesar salad kit topped with chicken.</small></span></label>
+      <label class="menu-item" for="item_7"><input type="checkbox" id="item_7" data-name="Salami &amp; Artichoke Dip Plate" data-group="Day II - The Silver Swan"><span class="course">Snack</span><span class="copy"><strong>Salami &amp; Artichoke Dip Plate</strong><small>Salami, gluten-free crackers, and artichoke Parmesan dip.</small></span></label>
+      <label class="menu-item" for="item_8"><input type="checkbox" id="item_8" data-name="Ají de Gallina" data-group="Day II - The Silver Swan"><span class="course">Dinner</span><span class="copy"><strong>Ají de Gallina</strong><small>Peruvian chicken in a creamy ají-style sauce with rice and egg.</small></span></label>
+    </div>
+  </section>
+
+  <section class="day-card" data-day="fox">
+    <div class="day-head">
+      <div><div class="day-label">Day III</div><h2>The Fox &amp; Fern</h2><p>Woodland comfort</p></div>
+      <button type="button" class="pick-day" data-day-target="fox">Choose this day</button>
+    </div>
+    <div class="items">
+      <label class="menu-item" for="item_9"><input type="checkbox" id="item_9" data-name="Eggs &amp; Bacon" data-group="Day III - The Fox &amp; Fern"><span class="course">Breakfast</span><span class="copy"><strong>Eggs &amp; Bacon</strong><small>Eggs your way with crisp bacon.</small></span></label>
+      <label class="menu-item" for="item_10"><input type="checkbox" id="item_10" data-name="Creamy Tomato Basil Soup" data-group="Day III - The Fox &amp; Fern"><span class="course">Lunch</span><span class="copy"><strong>Creamy Tomato Basil Soup</strong><small>Smooth tomato-basil soup finished with cream and Parmesan.</small></span></label>
+      <label class="menu-item" for="item_11"><input type="checkbox" id="item_11" data-name="Carrots &amp; Ranch" data-group="Day III - The Fox &amp; Fern"><span class="course">Snack</span><span class="copy"><strong>Carrots &amp; Ranch</strong><small>Petite carrots with ranch for dipping.</small></span></label>
+      <label class="menu-item" for="item_12"><input type="checkbox" id="item_12" data-name="Green Chile Chicken Tamales" data-group="Day III - The Fox &amp; Fern"><span class="course">Dinner</span><span class="copy"><strong>Green Chile Chicken Tamales</strong><small>Warm homemade tamales, served simply.</small></span></label>
+    </div>
+  </section>
+
+  <section class="day-card" data-day="velvet">
+    <div class="day-head">
+      <div><div class="day-label">Day IV</div><h2>The Velvet Crown</h2><p>Charcuterie hour, any hour</p></div>
+      <button type="button" class="pick-day" data-day-target="velvet">Choose this day</button>
+    </div>
+    <div class="items">
+      <label class="menu-item" for="item_13"><input type="checkbox" id="item_13" data-name="Baked Brie Charcuterie" data-group="Day IV - The Velvet Crown"><span class="course">Breakfast</span><span class="copy"><strong>Baked Brie Charcuterie</strong><small>Warm Brie with spiced pepper jelly, gluten-free crackers, salami, pickles, and olives.</small></span></label>
+      <label class="menu-item" for="item_14"><input type="checkbox" id="item_14" data-name="Chicken Caesar Salad" data-group="Day IV - The Velvet Crown"><span class="course">Lunch</span><span class="copy"><strong>Chicken Caesar Salad</strong><small>Gluten-free Caesar salad kit topped with chicken.</small></span></label>
+      <label class="menu-item" for="item_15"><input type="checkbox" id="item_15" data-name="Cheese &amp; Salami Board" data-group="Day IV - The Velvet Crown"><span class="course">Snack</span><span class="copy"><strong>Cheese &amp; Salami Board</strong><small>Smoked cheddar, mozzarella, salami, gluten-free crackers, pickles, and olives.</small></span></label>
+      <label class="menu-item" for="item_16"><input type="checkbox" id="item_16" data-name="Ají Amarillo Shrimp" data-group="Day IV - The Velvet Crown"><span class="course">Dinner</span><span class="copy"><strong>Ají Amarillo Shrimp</strong><small>Peruvian shrimp with ají-style sauce, rice, peas, and roasted peppers.</small></span></label>
+    </div>
+  </section>
+
+  <section class="day-card" data-day="bee">
+    <div class="day-head">
+      <div><div class="day-label">Day V</div><h2>The Honeybee Table</h2><p>Snacky, savory, and comforting</p></div>
+      <button type="button" class="pick-day" data-day-target="bee">Choose this day</button>
+    </div>
+    <div class="items">
+      <label class="menu-item" for="item_17"><input type="checkbox" id="item_17" data-name="Charcuterie Breakfast Board" data-group="Day V - The Honeybee Table"><span class="course">Breakfast</span><span class="copy"><strong>Charcuterie Breakfast Board</strong><small>Egg, cheese, salami, pickles, olives, cucumber, and gluten-free crackers.</small></span></label>
+      <label class="menu-item" for="item_18"><input type="checkbox" id="item_18" data-name="Classic Egg Drop Soup" data-group="Day V - The Honeybee Table"><span class="course">Lunch</span><span class="copy"><strong>Classic Egg Drop Soup</strong><small>Silky egg ribbons, savory broth, and green onion.</small></span></label>
+      <label class="menu-item" for="item_19"><input type="checkbox" id="item_19" data-name="Chips &amp; Salsa" data-group="Day V - The Honeybee Table"><span class="course">Snack</span><span class="copy"><strong>Chips &amp; Salsa</strong><small>Tortilla chips with mild salsa.</small></span></label>
+      <label class="menu-item" for="item_20"><input type="checkbox" id="item_20" data-name="Green Chile Chicken Tamales" data-group="Day V - The Honeybee Table"><span class="course">Dinner</span><span class="copy"><strong>Green Chile Chicken Tamales</strong><small>Warm homemade tamales, served simply.</small></span></label>
+    </div>
+  </section>
+
+  <section class="day-card" data-day="moon">
+    <div class="day-head">
+      <div><div class="day-label">Day VI</div><h2>The Moon Garden</h2><p>Quiet, cozy, and a little magical</p></div>
+      <button type="button" class="pick-day" data-day-target="moon">Choose this day</button>
+    </div>
+    <div class="items">
+      <label class="menu-item" for="item_21"><input type="checkbox" id="item_21" data-name="Savory Omelette" data-group="Day VI - The Moon Garden"><span class="course">Breakfast</span><span class="copy"><strong>Savory Omelette</strong><small>Egg omelette with cheese and herbs.</small></span></label>
+      <label class="menu-item" for="item_22"><input type="checkbox" id="item_22" data-name="Chicken Caesar Salad" data-group="Day VI - The Moon Garden"><span class="course">Lunch</span><span class="copy"><strong>Chicken Caesar Salad</strong><small>Gluten-free Caesar salad kit topped with chicken.</small></span></label>
+      <label class="menu-item" for="item_23"><input type="checkbox" id="item_23" data-name="Pickles &amp; Olives Plate" data-group="Day VI - The Moon Garden"><span class="course">Snack</span><span class="copy"><strong>Pickles &amp; Olives Plate</strong><small>Pickles, olives, cheese, and gluten-free crackers.</small></span></label>
+      <label class="menu-item" for="item_24"><input type="checkbox" id="item_24" data-name="Ají de Gallina" data-group="Day VI - The Moon Garden"><span class="course">Dinner</span><span class="copy"><strong>Ají de Gallina</strong><small>Peruvian chicken in a creamy ají-style sauce with rice and egg.</small></span></label>
+    </div>
+  </section>
+</div>
+
+<div class="section-head"><span class="script">at any hour</span><h2>The Snack Cabinet</h2></div>
+<div class="pills">
+  <label class="pill" for="item_25"><input type="checkbox" id="item_25" data-name="Tillamook beef stick" data-group="Anytime Snacks"><span>Tillamook beef stick</span></label>
+  <label class="pill" for="item_26"><input type="checkbox" id="item_26" data-name="Tortilla chips + mild salsa" data-group="Anytime Snacks"><span>Tortilla chips &amp; mild salsa</span></label>
+  <label class="pill" for="item_27"><input type="checkbox" id="item_27" data-name="Tortilla chips + artichoke Parmesan dip" data-group="Anytime Snacks"><span>Tortilla chips &amp; artichoke Parmesan dip</span></label>
+  <label class="pill" for="item_28"><input type="checkbox" id="item_28" data-name="Carrots + ranch" data-group="Anytime Snacks"><span>Carrots &amp; ranch</span></label>
+  <label class="pill" for="item_29"><input type="checkbox" id="item_29" data-name="Gluten-free crackers + spiced pepper jelly + cheese + salami" data-group="Anytime Snacks"><span>GF crackers, pepper jelly, cheese &amp; salami</span></label>
+  <label class="pill" for="item_30"><input type="checkbox" id="item_30" data-name="Pickles" data-group="Anytime Snacks"><span>Pickles</span></label>
+  <label class="pill" for="item_31"><input type="checkbox" id="item_31" data-name="Olives" data-group="Anytime Snacks"><span>Olives</span></label>
+  <label class="pill" for="item_32"><input type="checkbox" id="item_32" data-name="Smoked cheddar" data-group="Anytime Snacks"><span>Smoked cheddar</span></label>
+  <label class="pill" for="item_33"><input type="checkbox" id="item_33" data-name="Mozzarella" data-group="Anytime Snacks"><span>Mozzarella</span></label>
+  <label class="pill" for="item_34"><input type="checkbox" id="item_34" data-name="Salami" data-group="Anytime Snacks"><span>Salami</span></label>
+  <label class="pill" for="item_35"><input type="checkbox" id="item_35" data-name="Green chile chicken tamale" data-group="Anytime Snacks"><span>Green chile chicken tamale</span></label>
+</div>
+
+<div class="section-head"><span class="script">to drink</span><h2>The Beverage Cart</h2></div>
+<div class="pills">
+  <label class="pill drink" for="item_36"><input type="checkbox" id="item_36" data-name="Martinelli's sparkling cider" data-group="Beverage Cart"><span>Martinelli's sparkling cider</span></label>
+  <label class="pill drink" for="item_37"><input type="checkbox" id="item_37" data-name="Ocean Spray juice" data-group="Beverage Cart"><span>Ocean Spray juice</span></label>
+  <label class="pill drink" for="item_38"><input type="checkbox" id="item_38" data-name="BodyArmor peach mango" data-group="Beverage Cart"><span>BodyArmor peach mango</span></label>
+  <label class="pill drink" for="item_39"><input type="checkbox" id="item_39" data-name="Coconut water" data-group="Beverage Cart"><span>Coconut water</span></label>
+  <label class="pill drink" for="item_40"><input type="checkbox" id="item_40" data-name="Lemonade" data-group="Beverage Cart"><span>Lemonade</span></label>
+  <label class="pill drink" for="item_41"><input type="checkbox" id="item_41" data-name="London Fog" data-group="Beverage Cart"><span>London Fog</span></label>
+  <label class="pill drink" for="item_42"><input type="checkbox" id="item_42" data-name="Coffee" data-group="Beverage Cart"><span>Coffee</span></label>
+  <label class="pill drink" for="item_43"><input type="checkbox" id="item_43" data-name="Hot tea" data-group="Beverage Cart"><span>Hot tea</span></label>
+  <label class="pill drink" for="item_44"><input type="checkbox" id="item_44" data-name="Ice water" data-group="Beverage Cart"><span>Ice water</span></label>
+</div>
+
+<div class="notes"><label for="notes">Special Requests</label><textarea id="notes" placeholder="Anything else? Extra sauce, no onions, warm not hot…"></textarea></div>
+
+<section class="order" aria-live="polite">
+  <h3>Your Order</h3>
+  <textarea id="orderText" readonly aria-label="Formatted order"></textarea>
+  <div class="status" id="status"><span class="dot"></span><span id="statusText">Your picks are kept on this phone until you clear them</span></div>
+  <div class="actions">
+    <a class="primary" id="textBtn" href="#">Text Order to Robert</a>
+    <button type="button" class="secondary" id="copyBtn">Copy Order</button>
+    <button type="button" class="ghost" id="clearBtn">Clear</button>
+  </div>
+</section>
+
+<div class="colophon">Prepared with love · Six days of ease</div>
+</main>
+
+<script>
+(function(){
+const checks=[...document.querySelectorAll('input[type=checkbox]')];
+const notes=document.getElementById('notes'),out=document.getElementById('orderText');
+const textBtn=document.getElementById('textBtn'),copyBtn=document.getElementById('copyBtn');
+const KEY='myrranda-order-v1';
+
+function state(){return {checked:checks.filter(c=>c.checked).map(c=>c.id),notes:notes.value};}
+function apply(s){
+  if(!s)return;
+  const set=new Set(s.checked||[]);
+  checks.forEach(c=>c.checked=set.has(c.id));
+  if(typeof s.notes==='string')notes.value=s.notes;
+}
+function orderText(){
+  const groups=new Map();
+  checks.filter(c=>c.checked).forEach(c=>{const g=c.dataset.group||'Selections';if(!groups.has(g))groups.set(g,[]);groups.get(g).push(c.dataset.name);});
+  const lines=["Myrranda's Room Service Order",""];
+  if(!groups.size)lines.push("Nothing selected yet.");
+  groups.forEach((items,g)=>{lines.push(g+":");items.forEach(i=>lines.push("• "+i));lines.push("");});
+  if(notes.value.trim()){lines.push("Special requests:");lines.push(notes.value.trim());}
+  return lines.join("\n").trim();
+}
+function syncDayButtons(){
+  document.querySelectorAll('.pick-day').forEach(btn=>{
+    const card=document.querySelector('[data-day="'+btn.dataset.dayTarget+'"]');
+    const all=[...card.querySelectorAll('input[type=checkbox]')].every(x=>x.checked);
+    btn.classList.toggle('on',all);btn.textContent=all?'Day chosen ✓':'Choose this day';
+  });
+}
+function render(){
+  out.value=orderText();
+  textBtn.href="sms:+14323059278&body="+encodeURIComponent(out.value);
+  syncDayButtons();
+}
+function persistLocal(){try{localStorage.setItem(KEY,JSON.stringify(state()));}catch(e){}}
+function loadLocal(){try{const raw=localStorage.getItem(KEY);return raw?JSON.parse(raw):null;}catch(e){return null;}}
+function changed(){render();persistLocal();}
+
+document.querySelectorAll('.pick-day').forEach(btn=>btn.addEventListener('click',()=>{
+  const card=document.querySelector('[data-day="'+btn.dataset.dayTarget+'"]');
+  const local=[...card.querySelectorAll('input[type=checkbox]')];
+  const all=local.every(x=>x.checked);
+  local.forEach(x=>x.checked=!all);
+  changed();
+}));
+checks.forEach(c=>c.addEventListener('change',changed));
+notes.addEventListener('input',changed);
+
+copyBtn.addEventListener('click',async()=>{
+  const text=out.value;
+  try{await navigator.clipboard.writeText(text);copyBtn.textContent='Copied ✓';}
+  catch(e){out.focus();out.select();copyBtn.textContent='Select text, then Copy';}
+  setTimeout(()=>copyBtn.textContent='Copy Order',2200);
+});
+document.getElementById('clearBtn').addEventListener('click',()=>{
+  checks.forEach(c=>c.checked=false);notes.value='';changed();
+});
+
+apply(loadLocal());
+render();
+})();
+</script>
+</body>
+</html>
